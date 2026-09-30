@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+
+  program:
+    runs-on: ubuntu-latest
+    env:
+      ANCHOR: solanafoundation/anchor:v0.32.1
+      PROGRAM_ID: 2gbyeNrQm2869HMK2mnSJyHc4cQfDrAGh6dk5ccoVyg4
+    steps:
+      - uses: actions/checkout@v4
+      - name: mainnet build (long windows)
+        run: docker run --rm -v "$PWD/anchor:/workdir" -w /workdir $ANCHOR anchor build -- --no-default-features
+      - name: test build (short windows)
+        run: docker run --rm -v "$PWD/anchor:/workdir" -w /workdir $ANCHOR anchor build
+      # Same feature set as devnet, so the tests run against the binary that is deployed there.
+      - name: start local validator
+        run: |
+          docker run -d --name validator -p 8899:8899 -p 8900:8900 -v "$PWD/anchor:/workdir" $ANCHOR \
+            solana-test-validator --ledger /tmp/ledger --quiet \
+            --deactivate-feature B8JJXCy5amZyWG9r7EnUYLwzXSXTxG7GZ1qZ1qggo83g \
+            --bpf-program $PROGRAM_ID /workdir/target/deploy/stillpaid.so
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:8899 -H 'content-type: application/json' \
+              -d '{"jsonrpc":"2.0","id":1,"method":"getHealth"}' && break
+            sleep 2
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: program tests (65, about 5 minutes)
+        run: npm test
+      - if: failure()
+        run: docker logs validator | tail -50

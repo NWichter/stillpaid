@@ -1,0 +1,21 @@
+{
+  "fps": 25,
+  "freelancer": {
+    "demo": 0.63,
+    "hired": 11.4,
+    "accepted": 25.45,
+    "submitted": 28.56,
+    "paid": 128.33,
+    "end": 134.88
+  },
+  "client": {
+    "demo": 0.53,
+    "form": 6.31,
+    "created": 13.21,
+    "delivered": 29.97,
+    "v2": 46.57,
+    "offer": 61.95,
+    "settled": 69.36,
+    "end": 72.88
+  }
+}

@@ -1,0 +1,3047 @@
+{
+  "address": "2gbyeNrQm2869HMK2mnSJyHc4cQfDrAGh6dk5ccoVyg4",
+  "metadata": {
+    "name": "stillpaid",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Stillpaid: milestone escrow where silence means approval"
+  },
+  "instructions": [
+    {
+      "name": "accept_job",
+      "discriminator": [
+        43,
+        201,
+        124,
+        1,
+        19,
+        189,
+        96,
+        10
+      ],
+      "accounts": [
+        {
+          "name": "freelancer",
+          "signer": true,
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "job",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "accept_split",
+      "docs": [
+        "The other side accepts the standing offer. `freelancer_bps` must match it,",
+        "so a last-second change of the offer cannot be accepted by accident."
+      ],
+      "discriminator": [
+        177,
+        172,
+        17,
+        93,
+        193,
+        86,
+        54,
+        222
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "freelancer_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "add_milestone",
+      "discriminator": [
+        165,
+        18,
+        177,
+        128,
+        204,
+        172,
+        23,
+        249
+      ],
+      "accounts": [
+        {
+          "name": "client",
+          "signer": true,
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "job",
+          "writable": true
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "job.milestone_count",
+                "account": "Job"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "client_token",
+          "writable": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "delivery_deadline",
+          "type": "i64"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "approve",
+      "discriminator": [
+        69,
+        74,
+        217,
+        36,
+        115,
+        117,
+        97,
+        76
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_job",
+      "docs": [
+        "Once every milestone is closed, the job's rent goes back as well."
+      ],
+      "discriminator": [
+        90,
+        100,
+        180,
+        200,
+        200,
+        163,
+        120,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "job",
+          "writable": true
+        },
+        {
+          "name": "rent_payer",
+          "docs": [
+            "Only whoever paid the rent may close, so nobody else can erase a settled record."
+          ],
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "job"
+          ]
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "close_milestone",
+      "docs": [
+        "Returns the rent of a settled milestone and its vault to whoever paid it.",
+        "Tokens sent to the vault after settlement go to the client first."
+      ],
+      "discriminator": [
+        64,
+        73,
+        247,
+        200,
+        45,
+        76,
+        197,
+        241
+      ],
+      "accounts": [
+        {
+          "name": "job",
+          "writable": true,
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rent_payer",
+          "docs": [
+            "Only whoever paid the rent may close, so nobody else can erase a settled record."
+          ],
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_job",
+      "discriminator": [
+        178,
+        130,
+        217,
+        110,
+        100,
+        27,
+        82,
+        119
+      ],
+      "accounts": [
+        {
+          "name": "client",
+          "signer": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "job",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  106,
+                  111,
+                  98
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "client"
+              },
+              {
+                "kind": "arg",
+                "path": "job_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "token_program",
+          "docs": [
+            "Classic SPL Token only: Token-2022 fees, hooks or delegates could drain a vault."
+          ],
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "job_id",
+          "type": "u64"
+        },
+        {
+          "name": "freelancer",
+          "type": "pubkey"
+        },
+        {
+          "name": "arbiter",
+          "type": "pubkey"
+        },
+        {
+          "name": "windows",
+          "type": {
+            "defined": {
+              "name": "Windows"
+            }
+          }
+        },
+        {
+          "name": "max_revisions",
+          "type": "u8"
+        },
+        {
+          "name": "fallback_bps",
+          "type": "u16"
+        },
+        {
+          "name": "terms_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "title",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "fallback_split",
+      "discriminator": [
+        126,
+        93,
+        6,
+        22,
+        186,
+        133,
+        197,
+        253
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "open_dispute",
+      "discriminator": [
+        137,
+        25,
+        99,
+        119,
+        23,
+        223,
+        161,
+        42
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "reason_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "propose_split",
+      "discriminator": [
+        38,
+        104,
+        30,
+        96,
+        107,
+        245,
+        76,
+        252
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "freelancer_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "refund",
+      "discriminator": [
+        2,
+        96,
+        183,
+        251,
+        63,
+        208,
+        46,
+        46
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "release_on_silence",
+      "discriminator": [
+        109,
+        13,
+        124,
+        232,
+        11,
+        89,
+        75,
+        103
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "request_revision",
+      "discriminator": [
+        205,
+        195,
+        75,
+        171,
+        242,
+        149,
+        90,
+        14
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "reason_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve",
+      "discriminator": [
+        246,
+        150,
+        236,
+        206,
+        108,
+        63,
+        58,
+        10
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "job"
+          ]
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "milestone"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "freelancer_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.freelancer",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "client_token",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "job.client",
+                "account": "Job"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "freelancer_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "submit",
+      "discriminator": [
+        88,
+        166,
+        102,
+        181,
+        162,
+        127,
+        170,
+        48
+      ],
+      "accounts": [
+        {
+          "name": "actor",
+          "signer": true
+        },
+        {
+          "name": "job",
+          "relations": [
+            "milestone"
+          ]
+        },
+        {
+          "name": "milestone",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  105,
+                  108,
+                  101,
+                  115,
+                  116,
+                  111,
+                  110,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "job"
+              },
+              {
+                "kind": "account",
+                "path": "milestone.index",
+                "account": "Milestone"
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "deliverable_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Job",
+      "discriminator": [
+        75,
+        124,
+        80,
+        203,
+        161,
+        180,
+        202,
+        80
+      ]
+    },
+    {
+      "name": "Milestone",
+      "discriminator": [
+        38,
+        210,
+        239,
+        177,
+        85,
+        184,
+        10,
+        44
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "DisputeOpened",
+      "discriminator": [
+        239,
+        222,
+        102,
+        235,
+        193,
+        85,
+        1,
+        214
+      ]
+    },
+    {
+      "name": "JobAccepted",
+      "discriminator": [
+        47,
+        54,
+        152,
+        59,
+        118,
+        195,
+        251,
+        114
+      ]
+    },
+    {
+      "name": "JobCreated",
+      "discriminator": [
+        48,
+        110,
+        162,
+        177,
+        67,
+        74,
+        159,
+        131
+      ]
+    },
+    {
+      "name": "MilestoneFunded",
+      "discriminator": [
+        133,
+        223,
+        85,
+        235,
+        56,
+        36,
+        238,
+        240
+      ]
+    },
+    {
+      "name": "Paid",
+      "discriminator": [
+        240,
+        193,
+        17,
+        238,
+        238,
+        210,
+        129,
+        235
+      ]
+    },
+    {
+      "name": "RevisionRequested",
+      "discriminator": [
+        14,
+        182,
+        180,
+        102,
+        103,
+        151,
+        201,
+        29
+      ]
+    },
+    {
+      "name": "SplitProposed",
+      "discriminator": [
+        79,
+        18,
+        65,
+        165,
+        147,
+        244,
+        179,
+        235
+      ]
+    },
+    {
+      "name": "Submitted",
+      "discriminator": [
+        221,
+        58,
+        5,
+        241,
+        111,
+        209,
+        72,
+        210
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidParties",
+      "msg": "Client, freelancer and arbiter must be three different wallets"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidWindow",
+      "msg": "A time window is shorter than this build allows or longer than 90 days"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidRevisions",
+      "msg": "At most 10 revisions"
+    },
+    {
+      "code": 6003,
+      "name": "InvalidTitle",
+      "msg": "Title must be 1 to 64 bytes"
+    },
+    {
+      "code": 6004,
+      "name": "InvalidAmount",
+      "msg": "Amount must be greater than zero"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidDeadline",
+      "msg": "Delivery deadline must be in the future and at most a year out"
+    },
+    {
+      "code": 6006,
+      "name": "TooManyMilestones",
+      "msg": "A job can have at most 20 milestones"
+    },
+    {
+      "code": 6007,
+      "name": "AlreadyAccepted",
+      "msg": "The freelancer already accepted this job"
+    },
+    {
+      "code": 6008,
+      "name": "NotAccepted",
+      "msg": "The freelancer has not accepted this job yet"
+    },
+    {
+      "code": 6009,
+      "name": "NotFreelancer",
+      "msg": "Only the freelancer can do this"
+    },
+    {
+      "code": 6010,
+      "name": "NotClient",
+      "msg": "Only the client can do this"
+    },
+    {
+      "code": 6011,
+      "name": "NotArbiter",
+      "msg": "Only the arbiter can do this"
+    },
+    {
+      "code": 6012,
+      "name": "NotAParty",
+      "msg": "Only the client or the freelancer can do this"
+    },
+    {
+      "code": 6013,
+      "name": "WrongStatus",
+      "msg": "The milestone is not in the right state for this"
+    },
+    {
+      "code": 6014,
+      "name": "DeliveryLate",
+      "msg": "The delivery deadline has passed"
+    },
+    {
+      "code": 6015,
+      "name": "ReviewOver",
+      "msg": "The review window is over; silence counts as approval"
+    },
+    {
+      "code": 6016,
+      "name": "ReviewNotOver",
+      "msg": "The review window is still open"
+    },
+    {
+      "code": 6017,
+      "name": "RevisionsUsedUp",
+      "msg": "All revisions are used up; approve or open a dispute"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidSplit",
+      "msg": "A split is given in basis points, 0 to 10000"
+    },
+    {
+      "code": 6019,
+      "name": "NoOfferFromOtherSide",
+      "msg": "There is no offer from the other side to accept"
+    },
+    {
+      "code": 6020,
+      "name": "OfferChanged",
+      "msg": "The offer changed; reload and check it again"
+    },
+    {
+      "code": 6021,
+      "name": "NoArbiter",
+      "msg": "This job has no arbiter"
+    },
+    {
+      "code": 6022,
+      "name": "StillNegotiating",
+      "msg": "The negotiation window is still open"
+    },
+    {
+      "code": 6023,
+      "name": "FallbackNotDue",
+      "msg": "The default split is not due yet"
+    },
+    {
+      "code": 6024,
+      "name": "NotLate",
+      "msg": "The freelancer accepted the job and delivery is not late yet"
+    },
+    {
+      "code": 6025,
+      "name": "UnsupportedMint",
+      "msg": "Only classic SPL Token mints such as USDC are supported"
+    },
+    {
+      "code": 6026,
+      "name": "Overflow",
+      "msg": "Arithmetic overflow"
+    },
+    {
+      "code": 6027,
+      "name": "TooEarlyToClose",
+      "msg": "A settled milestone stays on record for a while before it can be closed"
+    },
+    {
+      "code": 6028,
+      "name": "MilestonesOpen",
+      "msg": "Close all milestones first"
+    },
+    {
+      "code": 6029,
+      "name": "ArbiterTooLate",
+      "msg": "The arbiter deadline has passed; the default split applies"
+    }
+  ],
+  "types": [
+    {
+      "name": "DisputeOpened",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "by",
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "reason_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "negotiate_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Job",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "client",
+            "type": "pubkey"
+          },
+          {
+            "name": "freelancer",
+            "type": "pubkey"
+          },
+          {
+            "name": "arbiter",
+            "docs": [
+              "Pubkey::default() = no arbiter: unresolved disputes end in the default split."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "job_id",
+            "type": "u64"
+          },
+          {
+            "name": "windows",
+            "type": {
+              "defined": {
+                "name": "Windows"
+              }
+            }
+          },
+          {
+            "name": "max_revisions",
+            "type": "u8"
+          },
+          {
+            "name": "accepted",
+            "type": "bool"
+          },
+          {
+            "name": "milestone_count",
+            "type": "u16"
+          },
+          {
+            "name": "open_milestones",
+            "type": "u16"
+          },
+          {
+            "name": "fallback_bps",
+            "docs": [
+              "Freelancer's share when a dispute runs out of time, agreed up front."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "terms_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "JobAccepted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "job",
+            "type": "pubkey"
+          },
+          {
+            "name": "freelancer",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "JobCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "job",
+            "type": "pubkey"
+          },
+          {
+            "name": "client",
+            "type": "pubkey"
+          },
+          {
+            "name": "freelancer",
+            "type": "pubkey"
+          },
+          {
+            "name": "arbiter",
+            "type": "pubkey"
+          },
+          {
+            "name": "fallback_bps",
+            "type": "u16"
+          },
+          {
+            "name": "terms_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Milestone",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "job",
+            "type": "pubkey"
+          },
+          {
+            "name": "index",
+            "type": "u16"
+          },
+          {
+            "name": "amount",
+            "docs": [
+              "Amount funded; payouts use the vault balance."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "Status"
+              }
+            }
+          },
+          {
+            "name": "delivery_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "review_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "negotiate_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "arbiter_deadline",
+            "type": "i64"
+          },
+          {
+            "name": "revisions",
+            "type": "u8"
+          },
+          {
+            "name": "submissions",
+            "type": "u8"
+          },
+          {
+            "name": "deliverable_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "reason_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "disputed_by",
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "proposal_by",
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "proposal_bps",
+            "type": "u16"
+          },
+          {
+            "name": "paid_freelancer",
+            "type": "u64"
+          },
+          {
+            "name": "paid_client",
+            "type": "u64"
+          },
+          {
+            "name": "settled_at",
+            "type": "i64"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "title",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MilestoneFunded",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "job",
+            "type": "pubkey"
+          },
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "index",
+            "type": "u16"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "delivery_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Outcome",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Approved"
+          },
+          {
+            "name": "Silence"
+          },
+          {
+            "name": "Agreed"
+          },
+          {
+            "name": "Arbiter"
+          },
+          {
+            "name": "Timeout"
+          },
+          {
+            "name": "Refunded"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Paid",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "outcome",
+            "type": {
+              "defined": {
+                "name": "Outcome"
+              }
+            }
+          },
+          {
+            "name": "to_freelancer",
+            "type": "u64"
+          },
+          {
+            "name": "to_client",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RevisionRequested",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "revisions",
+            "type": "u8"
+          },
+          {
+            "name": "reason_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "delivery_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Role",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "Client"
+          },
+          {
+            "name": "Freelancer"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SplitProposed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "by",
+            "type": {
+              "defined": {
+                "name": "Role"
+              }
+            }
+          },
+          {
+            "name": "freelancer_bps",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Status",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Funded"
+          },
+          {
+            "name": "Submitted"
+          },
+          {
+            "name": "Disputed"
+          },
+          {
+            "name": "Released"
+          },
+          {
+            "name": "Settled"
+          },
+          {
+            "name": "Resolved"
+          },
+          {
+            "name": "Refunded"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Submitted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "milestone",
+            "type": "pubkey"
+          },
+          {
+            "name": "deliverable_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "review_deadline",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Windows",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "review",
+            "type": "i64"
+          },
+          {
+            "name": "fix",
+            "type": "i64"
+          },
+          {
+            "name": "negotiate",
+            "type": "i64"
+          },
+          {
+            "name": "arbiter",
+            "type": "i64"
+          }
+        ]
+      }
+    }
+  ]
+}

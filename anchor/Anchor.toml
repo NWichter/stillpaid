@@ -1,0 +1,22 @@
+[toolchain]
+package_manager = "yarn"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+stillpaid = "2gbyeNrQm2869HMK2mnSJyHc4cQfDrAGh6dk5ccoVyg4"
+
+[programs.devnet]
+stillpaid = "2gbyeNrQm2869HMK2mnSJyHc4cQfDrAGh6dk5ccoVyg4"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "npx tsx ../tests/program.test.ts"

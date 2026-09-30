@@ -1,0 +1,20 @@
+CLAUDE.md
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+.DS_Store
+# Runtime data and keys
+data/*
+!data/.gitkeep
+*-keypair.json
+
+# Deck renders
+pitch/png/
+.gstack/
+video/node_modules/
+video/out/
+video/public/clips/
+video/public/vo/
+data-devnet/

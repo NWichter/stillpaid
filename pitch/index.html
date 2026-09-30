@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stillpaid · Silence still pays</title>
+    <meta
+      name="description"
+      content="Stillpaid: milestone escrow on Solana. The client funds first; silence after the review window counts as approval. Pitch deck."
+    />
+    <meta property="og:title" content="Stillpaid · Silence still pays" />
+    <meta
+      property="og:description"
+      content="Milestone escrow on Solana where the client's silence after the review window counts as approval."
+    />
+    <meta property="og:image" content="og.png" />
+    <link rel="icon" href="img/icon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f6f3ec;
+        --paper-2: #ece7db;
+        --card: #fffdf8;
+        --ink: #16171b;
+        --ink-2: #3b3d44;
+        --muted: #6e6c66;
+        --line: #d9d2c2;
+        --blue: #2f55d4;
+        --amber: #9a5c00;
+        --red: #c2372b;
+        --green: #1d7f48;
+        --green-2: #4fcf86;
+        --serif: "Instrument Serif", Georgia, serif;
+        --sans: "Inter Tight", system-ui, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+        --k: 1;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #0d0e10;
+        color: var(--ink);
+        font-family: var(--sans);
+      }
+      .slide {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: var(--paper);
+        padding: 110px 140px;
+        display: flex;
+        flex-direction: column;
+        gap: 36px;
+      }
+      .slide.dark {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .slide.dark .kicker {
+        color: #9a978f;
+      }
+      .kicker {
+        font: 500 22px/1 var(--mono);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-weight: 400;
+      }
+      h2 {
+        font: 400 104px/1 var(--serif);
+        letter-spacing: -0.01em;
+      }
+      h2 em {
+        font-style: italic;
+        color: var(--green);
+      }
+      .dark h2 em {
+        color: var(--green-2);
+      }
+      p {
+        margin: 0;
+      }
+      .lead {
+        font-size: 36px;
+        line-height: 1.35;
+        color: var(--ink-2);
+        max-width: 1400px;
+      }
+      .dark .lead {
+        color: #cfccc4;
+      }
+      .mono {
+        font-family: var(--mono);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .card {
+        background: var(--card);
+        border: 2px solid var(--line);
+        border-radius: 24px;
+      }
+      .dark .card {
+        background: #1c1d21;
+        border-color: #2d2e33;
+      }
+      .foot {
+        position: absolute;
+        left: 140px;
+        right: 140px;
+        bottom: 44px;
+        display: flex;
+        justify-content: space-between;
+        font: 500 18px/1 var(--mono);
+        color: var(--muted);
+        letter-spacing: 0.06em;
+      }
+      .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 22px;
+      }
+      .logo svg {
+        width: 84px;
+        height: 84px;
+      }
+      .logo span {
+        font: 400 104px/1 var(--serif);
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        font: 500 20px/1 var(--mono);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 12px 16px;
+        border-radius: 999px;
+        border: 2px solid currentColor;
+      }
+      .grid {
+        display: grid;
+        gap: 26px;
+      }
+      .g2 {
+        grid-template-columns: 1fr 1fr;
+      }
+      .g3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .g4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .box {
+        padding: 34px;
+      }
+      .box b {
+        display: block;
+        font: 400 48px/1.05 var(--serif);
+        margin: 14px 0 12px;
+      }
+      .box p {
+        font-size: 26px;
+        line-height: 1.4;
+        color: var(--ink-2);
+      }
+      .dark .box p {
+        color: #cfccc4;
+      }
+      .num {
+        font: 500 20px/1 var(--mono);
+        color: var(--muted);
+        letter-spacing: 0.1em;
+      }
+      .frame {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 2px solid var(--line);
+        box-shadow: 0 40px 80px -40px rgba(40, 30, 10, 0.5);
+        background: var(--card);
+      }
+      .frame .bar {
+        height: 44px;
+        background: var(--paper-2);
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .frame .bar i {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #e0655a;
+      }
+      .frame .bar i:nth-child(2) {
+        background: #e3b341;
+      }
+      .frame .bar i:nth-child(3) {
+        background: #5bb46c;
+      }
+      .frame .bar span {
+        margin-left: 14px;
+        font: 400 18px/1 var(--mono);
+        color: var(--muted);
+      }
+      .frame img {
+        display: block;
+        width: 100%;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 26px;
+      }
+      th {
+        font: 500 18px/1 var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-align: left;
+        padding: 14px 16px;
+        border-bottom: 2px solid var(--ink);
+      }
+      td {
+        padding: 16px;
+        border-bottom: 1.5px solid var(--line);
+        vertical-align: top;
+        line-height: 1.3;
+      }
+      .dark td {
+        border-color: #2d2e33;
+      }
+      .dark th {
+        border-color: #cfccc4;
+      }
+      .yes {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .no {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .meh {
+        color: var(--amber);
+        font-weight: 700;
+      }
+      .stamp {
+        display: inline-block;
+        font: 600 30px/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--green);
+        border: 4px solid var(--green);
+        border-radius: 10px;
+        padding: 14px 20px;
+        transform: rotate(-4deg);
+      }
+
+      /* slide 1 */
+      .marquee {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        background: var(--ink);
+        color: var(--paper);
+        font: 500 22px/1 var(--mono);
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 18px 0;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .marquee div {
+        display: inline-block;
+        animation: mq 50s linear infinite;
+      }
+      .marquee b {
+        color: var(--green-2);
+        font-weight: 500;
+        margin: 0 0.8em;
+      }
+      @keyframes mq {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      .s1 {
+        justify-content: center;
+      }
+      .s1 h1 {
+        font: 400 190px/0.95 var(--serif);
+        letter-spacing: -0.02em;
+        margin-top: 30px;
+      }
+      .s1 h1 em {
+        font-style: italic;
+        color: var(--green);
+      }
+      .s1 .def {
+        font: 400 30px/1.4 var(--mono);
+        color: var(--muted);
+      }
+      .s1 .def b {
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      /* problem */
+      .day {
+        font: 500 230px/1 var(--mono);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.02em;
+      }
+      .mail {
+        padding: 34px 40px;
+        font-size: 34px;
+        line-height: 1.35;
+        color: var(--ink-2);
+      }
+      .mail small {
+        display: block;
+        font: 400 20px/1 var(--mono);
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+      .pains {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+      .pains .chip {
+        color: var(--red);
+      }
+
+      /* timeline slide */
+      .tl {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 22px;
+        margin-top: 10px;
+      }
+      .tl .box {
+        min-height: 330px;
+      }
+      .tl .box.hl {
+        border-color: var(--green);
+        box-shadow: 0 0 0 6px rgba(29, 127, 72, 0.14);
+      }
+      .clock {
+        font: 500 120px/1 var(--mono);
+        font-variant-numeric: tabular-nums;
+      }
+      .prog {
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(154, 92, 0, 0.18);
+        overflow: hidden;
+        max-width: 900px;
+      }
+      .prog i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--amber);
+      }
+
+      /* people/rules lists */
+      .ticks {
+        display: grid;
+        gap: 18px;
+        font-size: 32px;
+        line-height: 1.3;
+      }
+      .ticks div {
+        display: flex;
+        gap: 18px;
+      }
+      .ticks div::before {
+        content: "✓";
+        color: var(--green);
+        font-weight: 700;
+      }
+      .dark .ticks div::before {
+        color: var(--green-2);
+      }
+
+      .qr {
+        background: #fff;
+        padding: 22px;
+        border-radius: 22px;
+        width: 330px;
+        height: 330px;
+      }
+      .qr img {
+        width: 100%;
+        height: 100%;
+      }
+      .big {
+        font: 400 150px/0.95 var(--serif);
+        letter-spacing: -0.02em;
+      }
+      .big em {
+        font-style: italic;
+        color: var(--green-2);
+      }
+      .play {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        font: 600 26px/1 var(--sans);
+        padding: 20px 28px;
+        border-radius: 14px;
+        background: var(--ink);
+        color: var(--paper);
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+      }
+      video {
+        width: 100%;
+        border-radius: 18px;
+        display: block;
+        background: #000;
+      }
+
+      /* animations (present mode only) */
+      .present .a {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .present .on .a {
+        opacity: 1;
+        transform: none;
+        transition-delay: var(--d, 0ms);
+      }
+      .present .on .prog i {
+        animation: fill 6s linear forwards;
+      }
+      @keyframes fill {
+        to {
+          width: 100%;
+        }
+      }
+
+      /* modes */
+      .present {
+        overflow: hidden;
+        background: #0d0e10;
+      }
+      .present .deck {
+        position: fixed;
+        inset: 0;
+      }
+      .present .slide {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) scale(var(--k));
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.45s ease;
+      }
+      .present .slide.on {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .hud {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.08);
+        z-index: 9;
+      }
+      .hud i {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--green-2);
+        transition: width 0.3s;
+      }
+      .single .slide {
+        display: none;
+      }
+      .single .slide.on {
+        display: flex;
+      }
+      body:not(.present) .hud {
+        display: none;
+      }
+      @media print {
+        @page {
+          size: 1920px 1080px;
+          margin: 0;
+        }
+        html,
+        body {
+          background: var(--paper);
+        }
+        .slide {
+          page-break-after: always;
+          break-after: page;
+        }
+        .marquee div {
+          animation: none;
+        }
+        video {
+          display: none;
+        }
+        .vposter {
+          display: block !important;
+        }
+      }
+      .vposter {
+        display: none;
+      }
+    
+/* layout tuning */
+.slide{justify-content:center;padding:150px 150px 120px}
+.slide>.kicker{position:absolute;top:72px;left:150px}
+h2{font-size:122px}
+.lead{font-size:40px}
+.box{padding:40px}
+.box b{font-size:58px}
+.box p{font-size:30px}
+.num{font-size:22px}
+table{font-size:31px}
+td{padding:20px 18px}
+th{font-size:20px}
+.ticks{font-size:36px;gap:22px}
+.tl .box{min-height:400px}
+.s5 .grid{grid-template-columns:1fr 1.5fr!important}
+.foot{left:150px;right:150px}
+.s7 .grid{grid-template-columns:1.5fr 1fr!important;gap:60px!important}
+.s7 .ticks{font-size:28px!important}
+.s9 table{font-size:26px}
+.s9 td{padding:16px 14px}
+.s12{justify-content:space-between}
+.s10 .mkt{font-size:30px;margin:10px 0 0}
+.s10b .box b{font-size:52px}
+.s10 .box{padding:30px 34px}
+.s10 .box b{font-size:48px}
+.s10 .grid{gap:24px}
+.road{gap:24px!important;border-top:2px solid #3a3b40;padding-top:28px}
+.road b{display:block;font:400 34px/1.15 var(--serif);margin-top:12px;color:#f3f1ea}
+</style>
+  </head>
+  <body>
+    <div class="deck">
+      <section class="slide s1">
+        <div class="marquee">
+          <div>
+            Silence still pays <b>✦</b> Get paid on sign-off. Or on silence
+            <b>✦</b> Enforced on Solana <b>✦</b> Clients can't ghost
+            <b>✦</b> Nobody holds the money <b>✦</b> Silence still pays
+            <b>✦</b> Get paid on sign-off. Or on silence <b>✦</b> Enforced on
+            Solana <b>✦</b> Clients can't ghost <b>✦</b> Nobody holds the money
+            <b>✦</b>
+          </div>
+        </div>
+        <div class="logo a">
+          <svg viewBox="0 0 32 32">
+            <rect width="32" height="32" rx="8" fill="#16171b" />
+            <circle cx="8.4" cy="14.4" r="2.4" fill="#f5f2ea" fill-opacity=".55" />
+            <circle cx="12.4" cy="18.4" r="2.4" fill="#9fd9b4" fill-opacity=".9" />
+            <path
+              d="M16.4 22.4L24.8 10.4"
+              fill="none"
+              stroke="#4fcf86"
+              stroke-width="4.8"
+              stroke-linecap="round"
+            /></svg
+          ><span>Stillpaid</span>
+        </div>
+        <h1 class="a" style="--d: 150ms">
+          Get paid on sign-off.<br /><em>Or on silence.</em>
+        </h1>
+        <p class="def a" style="--d: 400ms">
+          <b>still</b> (German): quiet. <b>still</b> (English): even so.<br />If
+          your client stays still, you still get paid.
+        </p>
+        <div class="foot">
+          <span>Optimistic payments for client work · Solana</span
+          ><span>Road to Colosseum · Superteam Germany</span>
+        </div>
+      </section>
+
+<section class="slide s2">
+  <span class="kicker a">02 / 13 · Problem</span>
+  <h2 class="a" style="--d: 100ms">
+    Delivered. Invoiced. <em style="color: var(--red)">Waiting.</em>
+  </h2>
+  <div style="display: flex; gap: 70px; align-items: center; margin-top: 20px">
+    <div class="day a" style="--d: 250ms">
+      Day <span data-count="47" data-dur="1600">47</span>
+    </div>
+    <div class="card mail a" style="--d: 600ms">
+      <small>Re: Invoice 2026-081</small>“Still have to look at it.<br />I'll
+      get back to you.”
+    </div>
+  </div>
+  <p class="lead a" style="--d: 900ms">
+    The work is submitted, the client goes quiet, and the freelancer chases the
+    money for weeks. Across borders it gets worse:
+  </p>
+  <div class="pains a" style="--d: 1100ms">
+    <span class="chip">SWIFT fees</span><span class="chip">days in transit</span
+    ><span class="chip">10–20 % marketplace fee</span
+    ><span class="chip">"pay first" vs. "deliver first"</span>
+  </div>
+  <div class="foot">
+    <span>Freelancers and agencies paid across borders</span
+    ><span>Illustrative</span>
+  </div>
+</section>
+
+<section class="slide s3 dark">
+  <span class="kicker a">03 / 13 · Insight</span>
+  <h2 class="a" style="--d: 100ms">
+    The rule already exists.<br /><em>Just not without a middleman.</em>
+  </h2>
+  <div class="grid g2" style="margin-top: 20px">
+    <div class="card box a" style="--d: 350ms">
+      <span class="num">Deemed acceptance · § 640 (2) BGB, contracts for work</span
+      ><b
+        >Silence past a deadline you set counts as acceptance, unless the client
+        names a defect.</b
+      >
+      <p>
+        But nothing pays out automatically. The money still sits with the
+        client, and the freelancer still has to chase it, or sue.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 550ms">
+      <span class="num">Marketplaces</span
+      ><b>Upwork and Fiverr auto-release after 3–14 days.</b>
+      <p>
+        But only inside their marketplace, for 10–20 %, with them holding the
+        money. Not for clients you found yourself.
+      </p>
+    </div>
+  </div>
+  <p class="lead a" style="--d: 800ms">
+    Stillpaid brings <b>optimistic payments</b> to client work: final unless
+    the client objects in time. The money is locked before work starts, and
+    silence releases it.
+  </p>
+</section>
+
+<section class="slide s4">
+  <span class="kicker a">04 / 13 · How it works</span>
+  <h2 class="a" style="--d: 100ms">Milestone escrow, <em>with a clock.</em></h2>
+  <div class="tl">
+    <div class="card box a" style="--d: 250ms">
+      <span class="num">1 · Fund</span><b>Money first</b>
+      <p>
+        The client funds each milestone in USDC. Held by the program in that
+        milestone's own vault, not by us.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 450ms">
+      <span class="num">2 · Submit</span><b>Deliver</b>
+      <p>
+        Link and note. Their SHA-256 fingerprint goes on-chain, so any later
+        edit shows.
+      </p>
+    </div>
+    <div class="card box hl a" style="--d: 650ms">
+      <span class="num">3 · Review</span><b>Silent Yes</b>
+      <p>
+        Approve, send a change request, or dispute. Silence past the review
+        deadline: the freelancer is paid.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 850ms">
+      <span class="num">4 · Disagree?</span><b>Split, arbiter, default</b>
+      <p>
+        An agreed split, a named arbiter, or the default split both sides
+        accepted up front.
+      </p>
+    </div>
+  </div>
+  <div class="foot">
+    <span>By design: every state has a timed exit</span
+    ><span>stillpaid.sorevo.de</span>
+  </div>
+</section>
+
+<section class="slide s5">
+  <span class="kicker a">05 / 13 · Silent Yes</span>
+  <h2 class="a" style="--d: 100ms">Nobody needs to press a button.</h2>
+  <div
+    class="grid"
+    style="grid-template-columns: 1fr 1.15fr; gap: 60px; align-items: center"
+  >
+    <div style="display: grid; gap: 26px">
+      <p class="lead a" style="--d: 250ms">
+        After the review deadline, <b>anyone</b> can release the milestone to
+        the freelancer. Our crank does it within half a minute, but the freelancer
+        needs neither the client nor our server.
+      </p>
+      <div class="card box a" style="--d: 450ms; padding: 30px">
+        <span class="num"
+          >If the client stays silent, the freelancer gets 25 USDC in</span
+        >
+        <div class="clock" data-clock="90">01:30</div>
+        <div class="prog"><i></i></div>
+      </div>
+      <div class="a" style="--d: 700ms">
+        <span class="stamp">Silent Yes: paid</span>
+      </div>
+    </div>
+    <div class="frame a" style="--d: 350ms">
+      <div class="bar">
+        <i></i><i></i><i></i><span>stillpaid.sorevo.de/j/… · devnet</span>
+      </div>
+      <img src="img/paid.png" alt="Job page after the payout on silence" />
+    </div>
+  </div>
+</section>
+
+<section class="slide s6">
+  <span class="kicker a">06 / 13 · Disputes</span>
+  <h2 class="a" style="--d: 100ms">
+    Clients keep the full review.<br /><em>They just can't ghost.</em>
+  </h2>
+  <div class="grid g3" style="margin-top: 10px">
+    <div class="card box a" style="--d: 250ms">
+      <span class="num">1 · Negotiate</span><b>Offer a split</b>
+      <p>
+        One side offers e.g. 60/40; the other accepts <i>exactly</i> that offer.
+        A changed offer can't be accepted by accident.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 450ms">
+      <span class="num">2 · Arbiter</span><b>A person both trust</b>
+      <p>
+        Optional, named when the job is created. Decides only after the
+        negotiation window.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 650ms">
+      <span class="num">3 · Default split</span><b>Agreed up front</b>
+      <p>
+        Nobody decided in time? The default split from the terms applies. Anyone
+        can trigger it.
+      </p>
+    </div>
+  </div>
+  <div class="grid g2 a" style="--d: 850ms; gap: 40px">
+    <div class="ticks" style="font-size: 28px">
+      <div>Client: money back before acceptance or on late delivery</div>
+      <div>Client: the agreed number of change requests</div>
+    </div>
+    <div class="ticks" style="font-size: 28px">
+      <div>Freelancer: sees the money locked before starting</div>
+      <div>Freelancer: a change request never shortens a deadline</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide s7">
+  <span class="kicker a">07 / 13 · Demo</span>
+  <h2 class="a" style="--d: 100ms">Live on devnet. Try both sides.</h2>
+  <div
+    class="grid"
+    style="grid-template-columns: 1.35fr 1fr; gap: 50px; align-items: start"
+  >
+    <div class="a" style="--d: 250ms">
+      <video
+        src="demo.mp4"
+        controls
+        preload="metadata"
+        poster="img/poster.png"
+      ></video
+      ><img
+        class="vposter"
+        src="img/poster.png"
+        alt="Demo video"
+        style="width: 100%; border-radius: 18px"
+      />
+    </div>
+    <div style="display: grid; gap: 22px">
+      <p class="lead a" style="--d: 350ms; font-size: 32px">
+        <b>stillpaid.sorevo.de/demo</b>, about five minutes, no SOL needed:
+      </p>
+      <div class="ticks a" style="--d: 500ms">
+        <div>
+          Be the freelancer: a demo client funds 25 test USDC, you submit,
+          silence pays you
+        </div>
+        <div>
+          Be the client: the demo freelancer delivers in seconds; approve,
+          request a change or dispute
+        </div>
+        <div>Throwaway demo wallet, or Phantom / Solflare on devnet</div>
+        <div>Every step linked to its transaction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide s8 dark">
+  <span class="kicker a">08 / 13 · Why Solana</span>
+  <h2 class="a" style="--d: 100ms">
+    Trust the rules, <em>not a custodian.</em>
+  </h2>
+  <div class="grid g2">
+    <div class="card box a" style="--d: 250ms">
+      <span class="num">01</span><b>Nobody holds the money</b>
+      <p>
+        Held by the program, not by us. Every payout follows the rules and
+        happens once. Before mainnet, upgrades move to a public multisig.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 400ms">
+      <span class="num">02</span><b>Deadlines enforce themselves</b>
+      <p>
+        Release on silence and the default split are permissionless: any wallet
+        can trigger them, on Solana's clock.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 550ms">
+      <span class="num">03</span><b>Paid anywhere in seconds</b>
+      <p>
+        USDC settles on-chain in seconds for a fraction of a cent. The app pays
+        the fees, so users need no SOL.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 700ms">
+      <span class="num">04</span><b>Evidence both sides can check</b>
+      <p>
+        Terms, deliveries and reasons are fingerprinted on-chain. The job page
+        re-hashes every text and links every step.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="slide s9">
+  <span class="kicker a">09 / 13 · Alternatives</span>
+  <h2 class="a" style="--d: 100ms">
+    Why not Upwork or Escrow.com?
+  </h2>
+  <table class="a" style="--d: 250ms">
+    <tr>
+      <th></th>
+      <th>Invoice + bank</th>
+      <th>Upwork / Fiverr</th>
+      <th>Escrow.com</th>
+      <th>Crypto escrow (e.g. Kleros)</th>
+      <th>Stillpaid</th>
+    </tr>
+    <tr>
+      <td>Money locked before work</td>
+      <td class="no">No</td>
+      <td class="yes">Yes</td>
+      <td class="yes">Yes</td>
+      <td class="yes">Yes</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td>Paid when the client goes silent</td>
+      <td class="no">No</td>
+      <td class="meh">In-platform only</td>
+      <td class="yes">Yes (auto-accept)</td>
+      <td class="meh">After a delivery deadline</td>
+      <td class="yes">Yes, on-chain</td>
+    </tr>
+    <tr>
+      <td>Clients you found yourself</td>
+      <td class="yes">Yes</td>
+      <td class="meh">Direct Contracts, ~5 %</td>
+      <td class="yes">Yes</td>
+      <td class="yes">Yes</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td>When nobody agrees</td>
+      <td>Court</td>
+      <td>Platform decides</td>
+      <td>Agent decides</td>
+      <td>Paid jurors decide</td>
+      <td class="yes">Default split</td>
+    </tr>
+    <tr>
+      <td>Who holds the money</td>
+      <td>The client</td>
+      <td>The platform</td>
+      <td>A licensed agent</td>
+      <td>Varies</td>
+      <td class="yes">The program</td>
+    </tr>
+    <tr>
+      <td>Cost · payout</td>
+      <td>SWIFT, FX · days</td>
+      <td>up to 20 % · days</td>
+      <td>2.6 %, min. $50 · days</td>
+      <td>Gas · seconds</td>
+      <td class="yes">planned 1 % · seconds</td>
+    </tr>
+  </table>
+  <div class="foot"><span>Typical setups, simplified</span><span></span></div>
+</section>
+
+<section class="slide s10">
+  <span class="kicker a">10 / 13 · Market</span>
+  <h2 class="a" style="--d: 100ms">
+    Start where both sides hold USDC.
+  </h2>
+  <div class="grid g3">
+    <div class="card box a" style="--d: 250ms">
+      <span class="num">First users</span><b>Crypto-native clients</b>
+      <p>
+        Solana teams, DAOs and grant programs paying freelancers across
+        borders. No more chasing sign-offs.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 450ms">
+      <span class="num">Then</span><b>Agencies hiring offshore</b>
+      <p>"The money is locked" as a perk to win good freelancers.</p>
+    </div>
+    <div class="card box a" style="--d: 650ms">
+      <span class="num">Later</span><b>EU clients</b>
+      <p>EURC, invoices with EUR amounts, embedded wallets and card top-ups.</p>
+    </div>
+  </div>
+  <p class="lead a mkt" style="--d: 750ms">
+    Upwork alone moved <b>$4B</b> of freelance work in 2025 at an
+    <b>18.7 %</b> take rate. <b>10,000+</b> contractors already take stablecoin
+    pay through Deel, including on Solana.
+  </p>
+  <div class="foot">
+    <span>Sources: Upwork FY2025 results · Deel, May 2026</span><span></span>
+  </div>
+</section>
+
+<section class="slide s10b">
+  <span class="kicker a">11 / 13 · Business</span>
+  <h2 class="a" style="--d: 100ms">
+    1 % of each payout.<br /><em>Almost no cost per milestone.</em>
+  </h2>
+  <div class="grid g3">
+    <div class="card box a" style="--d: 250ms">
+      <span class="num">Bottom-up</span><b>$130k a year</b>
+      <p>
+        if 5 % of Superteam Earn's 2,720+ sponsors pay 4 freelancer milestones
+        of $2,000 a month through Stillpaid.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 450ms">
+      <span class="num">Unit cost</span><b>under $0.01</b>
+      <p>
+        in network fees per milestone. The account rent comes back when a
+        settled milestone is closed.
+      </p>
+    </div>
+    <div class="card box a" style="--d: 650ms">
+      <span class="num">Pricing</span><b>1 %, paid by the client</b>
+      <p>min. $2, max. $100, free in beta. Upwork's take rate: 18.7 %.</p>
+    </div>
+  </div>
+  <p class="lead a" style="--d: 850ms">
+    Go to market: Superteam Earn sponsors and grant programs that already pay
+    in milestones, then Squads-run teams and DAOs. Later: a flat fee per
+    program, and paid expert arbiters.
+  </p>
+  <div class="foot">
+    <span>Assumptions, not traction · superteam.fun/earn · Upwork FY2025</span
+    ><span></span>
+  </div>
+</section>
+
+<section class="slide s11">
+  <span class="kicker a">12 / 13 · Built</span>
+  <h2 class="a" style="--d: 100ms">Built, tested, live on devnet.</h2>
+  <div class="grid g4">
+    <div class="card box a" style="--d: 200ms">
+      <b style="font-size: 96px" data-count="15">15</b>
+      <p>instructions in our own Anchor program</p>
+    </div>
+    <div class="card box a" style="--d: 350ms">
+      <b style="font-size: 96px" data-count="65">65</b>
+      <p>program tests, including every deadline</p>
+    </div>
+    <div class="card box a" style="--d: 500ms">
+      <b style="font-size: 96px" data-count="34">34</b>
+      <p>end-to-end checks, passing on devnet</p>
+    </div>
+    <div class="card box a" style="--d: 650ms">
+      <b style="font-size: 96px">0</b>
+      <p>SOL a user needs: the app pays the fees</p>
+    </div>
+  </div>
+  <p class="lead a" style="--d: 850ms; font-size: 28px">
+    Program
+    <span class="mono">2gbyeNrQm2869HMK2mnSJyHc4cQfDrAGh6dk5ccoVyg4</span>
+    (devnet, verified build) · Solana Actions / Blinks · a Squads multisig
+    can be the client · IDL on-chain · open source (Apache-2.0)
+  </p>
+</section>
+
+<section class="slide s12 dark">
+  <div
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 80px;
+    "
+  >
+    <div style="display: grid; gap: 34px">
+      <div class="big a">Silence<br /><em>still</em> pays.</div>
+      <p class="lead a" style="--d: 250ms">
+        The ask: Solana teams and grant programs to run their next freelancer
+        milestones through Stillpaid in a Q1 2027 mainnet pilot.
+      </p>
+      <div
+        class="a"
+        style="
+          --d: 450ms;
+          display: grid;
+          gap: 12px;
+          font: 400 28px/1.3 var(--mono);
+        "
+      >
+        <span>Live demo · stillpaid.sorevo.de/demo</span
+        ><span>Open source · github.com/NWichter/stillpaid</span
+        ><span>Niklas Wichter</span>
+      </div>
+    </div>
+    <div
+      class="a"
+      style="--d: 300ms; display: grid; gap: 16px; justify-items: center"
+    >
+      <div class="qr">
+        <img src="img/qr-demo.svg" alt="QR code to the live demo" />
+      </div>
+      <span class="mono" style="font-size: 20px; color: #9a978f"
+        >Scan to try the live demo</span
+      >
+    </div>
+  </div>
+  <div class="grid g4 road a" style="--d: 650ms">
+    <div><span class="num">October</span><b>Reminders + invoices</b></div>
+    <div><span class="num">November</span><b>Security review, EURC</b></div>
+    <div>
+      <span class="num">December</span><b>Multisig upgrade authority</b>
+    </div>
+    <div><span class="num">Q1 2027</span><b>Mainnet pilot</b></div>
+  </div>
+  <div class="foot">
+    <span>Road to Colosseum · Superteam Germany</span><span>Solana devnet</span>
+  </div>
+</section>
+    </div>
+    <div class="hud"><i></i></div>
+    <script src="deck.js"></script>
+  </body>
+</html>

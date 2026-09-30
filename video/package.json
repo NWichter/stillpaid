@@ -1,0 +1,24 @@
+{
+  "name": "stillpaid-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "tsx capture/capture.ts",
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Stillpaid out/stillpaid-demo.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.530",
+    "@remotion/google-fonts": "^4.0.530",
+    "@remotion/media-utils": "^4.0.530",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.530"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.0",
+    "playwright": "1.63.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
+}
